@@ -1,0 +1,22 @@
+# Ignore Eclipse/STS metadata
+.metadata/
+*.log
+
+# Ignore build outputs
+bin/
+target/
+build/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE configs
+.classpath
+.project
+.settings/
+
+#Ignore OS-Specific files
+Thumbs.db
+.DS_store
+
