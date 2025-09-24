@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.sample.storeapi.StoreApiApplication;
+import com.sample.storeapi.dto.ProductPatchDto;
 import com.sample.storeapi.models.Product;
 import com.sample.storeapi.services.ProductsService;
 
@@ -105,4 +107,23 @@ public class ProductsController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No data found for given Id");
 		}
 	}
+	
+	@PatchMapping("/{id}")
+	public ResponseEntity<Product> patchProduct(@PathVariable int id, @RequestBody ProductPatchDto updates) {
+	    try {
+	        Product existing = serv.getProductById(id);
+	        if (existing == null) {
+	            return ResponseEntity.notFound().build();
+	        }
+
+	        if (updates.getName() != null) existing.setName(updates.getName());
+	        if (updates.getCategory() != null) existing.setCategory(updates.getCategory());
+	        if (updates.getPrice() != null) existing.setPrice(updates.getPrice());
+
+	        return ResponseEntity.ok(serv.UpdateProduct(existing));
+	    } catch (Exception ex) {
+	        return ResponseEntity.badRequest().build();
+	    }
+	}
+
 }

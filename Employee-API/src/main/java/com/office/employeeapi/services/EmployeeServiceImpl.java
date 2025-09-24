@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.office.employeeapi.models.Employee;
+import com.office.employeeapi.models.EmployeeResponse;
 import com.office.employeeapi.repo.EmployeeRepo;
 
 @Service
@@ -15,7 +16,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Employee getEmployeeById(int id) {
 		// TODO Auto-generated method stub
-		return repo.getEmployeeByid(id);
+//		return repo.getEmployeeByid(id);
+		return repo.findById(id).get();
 	}
+//@Override
+//	public EmployeeResponse getEmployeeById(int id) {
+//		// TODO Auto-generated method stub
+////		return repo.getEmployeeByid(id);
+//		return repo.findById(id).get();
+//	}
 
 }
