@@ -40,10 +40,10 @@ public class employeeController {
 	{
 		List<InstanceInfo> instnaces=eurekaClient.getApplication("Address-API").getInstances();
 		
-		for(InstanceInfo instance : instnaces)
-		{
-			System.out.println(instance);
-		}
+//		for(InstanceInfo instance : instnaces)
+//		{
+//			System.out.println(instance);
+//		}
 		
 //		String url=baseURL+"/api/address/"+id;// forming url using concatination as id is coming for employee api will also be passed to address api
 		String url=instnaces.get(0).getHomePageUrl()+"api/address/"+id;
