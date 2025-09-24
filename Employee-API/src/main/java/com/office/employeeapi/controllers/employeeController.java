@@ -1,5 +1,7 @@
 package com.office.employeeapi.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.netflix.appinfo.InstanceInfo;
+import com.netflix.discovery.EurekaClient;
 import com.office.employeeapi.models.AddressResponse;
 import com.office.employeeapi.models.Employee;
 import com.office.employeeapi.models.EmployeeResponse;
@@ -27,12 +31,22 @@ public class employeeController {
 	@Value("${address.api.base-url}")
 	private String baseURL;
 	
+	@Autowired
+	private EurekaClient eurekaClient;
+	
 	@GetMapping("/{id}")
 //	public ResponseEntity<Employee> getEmployeeByid(@PathVariable int id)
 	public ResponseEntity<EmployeeResponse> getEmployeeByid(@PathVariable int id)
 	{
+		List<InstanceInfo> instnaces=eurekaClient.getApplication("Address-API").getInstances();
 		
-		String url=baseURL+"/api/address/"+id;// forming url using concatination as id is coming for employee api will also be passed to address api
+		for(InstanceInfo instance : instnaces)
+		{
+			System.out.println(instance);
+		}
+		
+//		String url=baseURL+"/api/address/"+id;// forming url using concatination as id is coming for employee api will also be passed to address api
+		String url=instnaces.get(0).getHomePageUrl()+"api/address/"+id;
 		AddressResponse addressResponse=rest.getForObject(url, AddressResponse.class);//calling other api endpoint
 	
 		System.out.println(addressResponse);
